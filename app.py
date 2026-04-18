@@ -3,8 +3,7 @@ import gradio as gr
 import google.generativeai as genai
 
 # Integrate the provided Gemini API key
-genai.configure(api_key="AIzaSyDLIZq0nRAdBd3tNZ2behy15sBhcDFitts")
-
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 SYSTEM_PROMPT = "You are an AI Escape Room Game Master. Your task is to create and run an interactive text-based escape room game. You must maintain the player’s progress, inventory, and puzzle state. Your responses must always stay within the escape room domain. Be creative but ensure the puzzles are solvable in 3–5 steps."
 
 INITIALIZATION_PROMPT = "Create a new escape room scenario. Provide a theme (e.g., Mysterious Library, Abandoned Lab, Haunted Mansion). Describe the room in 2–3 sentences. Then describe the first puzzle the player sees. End by asking the player what they want to do."
