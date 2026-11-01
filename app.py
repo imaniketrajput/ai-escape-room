@@ -4,6 +4,7 @@ import google.generativeai as genai
 
 # Integrate the provided Gemini API key
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
 SYSTEM_PROMPT = "You are an AI Escape Room Game Master. Your task is to create and run an interactive text-based escape room game. You must maintain the player’s progress, inventory, and puzzle state. Your responses must always stay within the escape room domain. Be creative but ensure the puzzles are solvable in 3–5 steps."
 
 INITIALIZATION_PROMPT = "Create a new escape room scenario. Provide a theme (e.g., Mysterious Library, Abandoned Lab, Haunted Mansion). Describe the room in 2–3 sentences. Then describe the first puzzle the player sees. End by asking the player what they want to do."
@@ -104,13 +105,11 @@ body, .gradio-container {
     color: #e0e0e0 !important;
     font-family: 'Courier New', Courier, monospace !important;
 }
-
 /* Typography & Glowing Accents */
 h1, h2, h3, h4, h5, h6, strong {
     color: #f5c542 !important;
     text-shadow: 0 0 10px rgba(245, 197, 66, 0.4);
 }
-
 /* Chatbot Styling */
 #chatbot-container {
     height: 65vh !important;
@@ -120,7 +119,6 @@ h1, h2, h3, h4, h5, h6, strong {
     box-shadow: 0 0 15px rgba(245, 197, 66, 0.1);
     padding: 10px;
 }
-
 /* Chat Bubbles & Animations */
 .message-wrap .message {
     animation: pulseBubble 0.3s ease-out;
@@ -136,12 +134,10 @@ h1, h2, h3, h4, h5, h6, strong {
     color: #ffffff !important;
     border: 1px solid #444 !important;
 }
-
 @keyframes pulseBubble {
     0% { transform: scale(0.98); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
-
 /* Input Area Glow */
 #action-input input {
     background: #0a0c10 !important;
@@ -154,7 +150,6 @@ h1, h2, h3, h4, h5, h6, strong {
     box-shadow: 0 0 15px rgba(245, 197, 66, 0.5) !important;
     outline: none !important;
 }
-
 /* Buttons */
 .submit-btn {
     background-color: #f5c542 !important;
@@ -167,7 +162,6 @@ h1, h2, h3, h4, h5, h6, strong {
     box-shadow: 0 0 15px rgba(245, 197, 66, 0.8) !important;
     transform: scale(1.02);
 }
-
 .reset-btn {
     background-color: transparent !important;
     color: #ff4c4c !important;
@@ -179,7 +173,6 @@ h1, h2, h3, h4, h5, h6, strong {
     color: #0a0c10 !important;
     box-shadow: 0 0 15px rgba(255, 76, 76, 0.6) !important;
 }
-
 /* Custom Footer */
 .custom-footer {
     text-align: center;
@@ -188,6 +181,82 @@ h1, h2, h3, h4, h5, h6, strong {
     color: #555;
     font-family: Arial, sans-serif !important;
     letter-spacing: 1px;
+}
+/* Theme Button */
+.theme-btn {
+    background: rgba(255, 215, 0, 0.15) !important;
+    color: #ffd700 !important;
+    border: 1px solid rgba(255, 215, 0, 0.5) !important;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.theme-btn:hover {
+    background: rgba(255, 215, 0, 0.4) !important;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6) !important;
+}
+/* Light Mode Overrides */
+.light-mode, .light-mode .gradio-container {
+    background-color: #f5f0e8 !important;
+    background-image: none !important;
+    color: #2c1810 !important;
+}
+.light-mode #sidebar-container, 
+.light-mode #chatbot-container, 
+.light-mode #action-input-container {
+    background: rgba(245, 240, 232, 0.95) !important;
+    border: 1px solid rgba(139, 90, 43, 0.4) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+/* Fix chat area background */
+.light-mode .chatbot,
+.light-mode [class*="chatbot"],
+.light-mode .wrap {
+    background: #f5f0e8 !important;
+}
+/* Fix bot message bubbles */
+.light-mode .message.bot {
+    background: rgba(255, 245, 200, 0.98) !important;
+    color: #2c1810 !important;
+    border: 1px solid rgba(180, 130, 50, 0.5) !important;
+}
+/* Fix user message bubbles */
+.light-mode .message.user {
+    background: rgba(200, 220, 255, 0.98) !important;
+    color: #0a1a3a !important;
+    border: 1px solid rgba(80, 120, 200, 0.4) !important;
+}
+/* Fix ALL text inside chat in light mode */
+.light-mode .message p,
+.light-mode .message span,
+.light-mode .message * {
+    color: inherit !important;
+    text-shadow: none !important;
+}
+/* Fix markdown/code text in sidebar */
+.light-mode .markdown-text,
+.light-mode p, 
+.light-mode li {
+    color: #2c1810 !important;
+    text-shadow: none !important;
+}
+/* Fix headings in light mode */
+.light-mode h1, .light-mode h2, 
+.light-mode h3, .light-mode strong {
+    color: #8B4513 !important;
+    text-shadow: none !important;
+}
+/* Fix input box */
+.light-mode #action-input input {
+    background: rgba(255,255,255,0.8) !important;
+    color: #2c1810 !important;
+    border-bottom: 2px solid rgba(139, 90, 43, 0.6) !important;
+}
+/* Fix code blocks (look, inventory etc) */
+.light-mode code {
+    background: rgba(139, 90, 43, 0.15) !important;
+    color: #5c2d00 !important;
 }
 """
 
@@ -198,6 +267,7 @@ with gr.Blocks(title="AI Escape Room", css=css, theme=gr.themes.Monochrome()) as
             gr.Markdown("# 👁️ The AI Escape")
             gr.Markdown("### 📜 Ancient Commands\n\n- `look`\n- `inventory`\n- `use [item]`\n- `hint`\n- `solve [answer]`\n\n*Or try any creative action!*")
             reset_btn = gr.Button("🔥 Reset Destiny", elem_classes="reset-btn")
+            theme_btn = gr.Button("☀️ Toggle Theme", elem_classes="theme-btn")
         
         # Main Game Layer
         with gr.Column(scale=3):
@@ -219,5 +289,15 @@ with gr.Blocks(title="AI Escape Room", css=css, theme=gr.themes.Monochrome()) as
     # Reset button handling triggers "reset" automatically
     reset_btn.click(lambda h: user_action("reset", h), inputs=[chatbot], outputs=[msg, chatbot])
 
+    theme_btn.click(None, js="""
+    () => {
+        const body = document.querySelector('.gradio-container');
+        body.classList.toggle('light-mode');
+        const btn = document.querySelector('.theme-btn');
+        btn.textContent = body.classList.contains('light-mode') ? '🌙 Toggle Theme' : '☀️ Toggle Theme';
+    }
+    """)
+
 if __name__ == "__main__":
     demo.launch(inbrowser=True)
+
